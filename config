@@ -1,0 +1,131 @@
+{ config, pkgs, ... }:
+
+
+{
+  imports =
+    [ ./hardware-configuration.nix ];
+  nix.extraOptions = ''
+    experimental-features = nix-command flakes
+  '';
+  
+  nixpkgs.config.allowUnfree = true;
+
+  boot.loader.systemd-boot.enable = true;
+  boot.loader.efi.canTouchEfiVariables = true;
+
+  networking.networkmanager.enable = true;
+
+#ZAMAN DILIMI
+
+  time.timeZone = "Asia/Baku";
+  i18n.defaultLocale = "en_US.UTF-8";
+
+#KLAVIATURA DILI
+
+services.xserver.layout = "az,ru,us";
+services.xserver.xkbOptions = "grp:alt_shift_toggle";
+
+
+
+#DISPPLAY IDAREEDICISI
+
+  services.xserver.enable = true;
+  services.xserver.displayManager.sddm.enable = true;
+  services.xserver.desktopManager.plasma6.enable = true;
+
+#SES
+services.pipewire = {
+  enable = true;
+  alsa.enable = true;
+  pulse.enable = true;
+  jack.enable = true;
+};
+
+
+  users.users.mavera = {
+    isNormalUser = true;
+    extraGroups = [ "wheel" "networkmanager" ];
+  };
+
+ # PAKETLER #
+
+  environment.systemPackages = with pkgs; [
+   #BRAUZER
+   firefox
+   vivaldi 
+
+   #SOSIAL MEDIA
+   discord 
+   webcord
+   spotify
+   #tdesktop
+
+   #DERS
+   #libreoffice
+   #octave
+   #octavePackages.control
+   #octavePackages.signal
+   #obsidian
+   #todoman
+   
+   #SISTEM APLIKASIYALARI
+   vscode
+   vscode-fhs
+   neofetch
+   alacritty
+   #fish
+   git
+   #neovim
+   htop
+   btop
+   #mpv
+   #vlc
+   #kdePackages.dolphin
+   #obs-studio
+
+   #BILINMEYEN & DAYAQ PAKETLER
+#wget curl fastfetch
+#unzip
+#p7zip
+#python3
+#pkg-config                                       
+#curl
+#wget
+#nixd
+#nil
+#grim
+#drawio
+#inkscape
+#python3Packages.numpy
+#python3Packages.scipy
+#python3Packages.matplotlib
+#gcc
+#gpp
+#cmake
+#gnumake
+#gh
+#texliveFull
+#sage
+#scilab-bin
+#flameshot                                               
+#fuse
+#udisks2
+#baobab
+#helvum
+#wl-clipboard
+#3strace
+#ripgrep
+#3vulkan-tools
+#glxinfo
+#nvtopPackages.full
+#powertop
+#tlp
+#brightnessctl
+#acpi
+  ];
+
+ #SYETEM VERSIYASI
+
+  system.stateVersion = "25.05";
+}
+
